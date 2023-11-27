@@ -1,3 +1,5 @@
+import requests
+import json
 import geopandas as gpd
 import matplotlib.pyplot as plt
 
@@ -209,7 +211,17 @@ datos = {
     }
   ]
 }
+def get_data(ip, port, endpoint):
+    url = f'http://{ip}:{port}/{endpoint}'
+    resp = requests.get(url)
+    print(resp.text)
+    j = json.loads(resp.text)
+    return dict(j)
 
+ip, port, endpoint = '127.0.0.1', '5000', 'data' 
+datos = get_data(ip, port, endpoint)
+
+print(datos['datos'][0]['densidad_poblacion'])
 # Cargar datos geoespaciales (por ejemplo, un archivo shapefile)
 world = gpd.read_file('coords.geojson')
 
@@ -223,9 +235,13 @@ world = world.merge(df, how='left', left_on='NUTS_ID', right_on='pais_codigo')
 print(world.head())
 
 # Crear un mapa cloroplético
-world.plot(column='densidad_poblacion',  # Columna que se utilizará para la codificación de color
+ax = world.plot(column='densidad_poblacion',  # Columna que se utilizará para la codificación de color
            cmap='OrRd',        # Mapa de colores (puedes cambiarlo según tus preferencias)
            legend=True,        # Mostrar la leyenda
            legend_kwds={'label': "Población por país"})  # Etiqueta de la leyenda
+
+# Añadir etiquetas de país
+for x, y, label in zip(world.geometry.centroid.x, world.geometry.centroid.y, df['pais_nombre']):
+    ax.text(x, y, label, fontsize=8, ha='center', va='center')
 
 plt.show()

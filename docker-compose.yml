@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+    api:
+        build:
+            context: ./api
+        ports:
+            - "5000:5000"
+        networks:
+            - pract2_net
+
+    app:
+        build: 
+            context: ./app
+        ports:
+            - "5001:5001"  # Cambia el puerto en el host a 5001  
+        depends_on:
+            - api
+        networks:
+            - pract2_net
+
+networks:
+    pract2_net:
+        driver: bridge

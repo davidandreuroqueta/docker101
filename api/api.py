@@ -70,7 +70,7 @@ def transform(data):
 
 
 @app.route('/data')
-def hola():
+def data():
     raw_data = get_density()
     data = transform(raw_data)
     return data

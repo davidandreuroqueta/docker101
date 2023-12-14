@@ -37,6 +37,9 @@ def graph(ip, port, endpoint):
     world.plot(column='densidad_poblacion', cmap='YlGnBu', linewidth=0.8, ax=ax, edgecolor='0.8', legend=True, cax=cax)
     ax.set_title('Densidad de población en Europa', fontsize=16)
     ax.set_axis_off()  # Ocultar ejes
+    
+    # Ajustar la extensión del gráfico para que solo muestre la región de Europa
+    ax.set_xlim([2000000, 8000000])
 
     # Añadir un título y ajustar el diseño
     plt.tight_layout()

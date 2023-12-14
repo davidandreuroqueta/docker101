@@ -17,7 +17,7 @@ def graph(ip, port, endpoint):
     datos = get_data(ip, port, endpoint)
 
     # Cargar datos geoespaciales (por ejemplo, un archivo shapefile)
-    world = gpd.read_file('coords.geojson')
+    world = gpd.read_file('./coords.geojson')
 
     # Crear un DataFrame con los datos
     df = gpd.GeoDataFrame(datos['datos'], columns=['densidad_poblacion', 'id', 'pais_codigo', 'pais_nombre'])
